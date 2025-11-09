@@ -14,6 +14,3 @@ export default class Ship {
     return false;
   }
 }
-
-const ship = new Ship(3);
-console.log(ship.length);

@@ -1,0 +1,99 @@
+export default class Gameboard {
+  gameboardArr = this.getboard();
+
+  getboard() {
+    const gameBoardArr = [];
+    for (let index = 0; index < 10; index++) {
+      gameBoardArr.push([]);
+      for (let j = 0; j < 10; j++) {
+        gameBoardArr[index].push([]);
+      }
+    }
+    return gameBoardArr;
+  }
+
+  placeShip(ship, startPos, endPos) {
+    startPos = this.getPos(startPos);
+    endPos = this.getPos(endPos);
+    {
+      if (
+        this.checkInputValidity(ship.length, startPos, endPos) ===
+        "Column placing"
+      ) {
+        for (let index = 0; index < ship.length; index++) {
+          this.gameboardArr[startPos[0] + index][startPos[1]] = "O";
+        }
+      } else if (
+        this.checkInputValidity(ship.length, startPos, endPos) === "Row placing"
+      ) {
+        for (let index = 0; index < ship.length; index++) {
+          this.gameboardArr[startPos[0]][startPos[1] + index] = "O";
+        }
+      } else {
+        return "Invalid Input";
+      }
+      return this.gameboardArr;
+    }
+  }
+
+  checkInputValidity(length, startPos, endPos) {
+    if (startPos[1] === endPos[1] && endPos[0] + 1 - startPos[0] === length) {
+      return "Column placing";
+    } else if (
+      startPos[0] === endPos[0] &&
+      endPos[1] + 1 - startPos[1] === length
+    ) {
+      return "Row placing";
+    }
+    return false;
+  }
+
+  getPos(position) {
+    const positionArr = Array.from(position);
+    const modifiedposition = [];
+    switch (positionArr[0].toUpperCase()) {
+      case "A":
+        modifiedposition.push(0);
+        break;
+
+      case "B":
+        modifiedposition.push(1);
+        break;
+      case "C":
+        modifiedposition.push(2);
+        break;
+      case "D":
+        modifiedposition.push(3);
+        break;
+      case "E":
+        modifiedposition.push(4);
+        break;
+      case "F":
+        modifiedposition.push(5);
+        break;
+      case "G":
+        modifiedposition.push(6);
+        break;
+      case "H":
+        modifiedposition.push(7);
+        break;
+      case "I":
+        modifiedposition.push(8);
+        break;
+      case "J":
+        modifiedposition.push(9);
+        break;
+
+      default:
+        return "Invalid";
+    }
+    if (positionArr.length === 3) {
+      const secondVal = Number(positionArr[1] + positionArr[2]) - 1;
+      modifiedposition.push(secondVal);
+      return modifiedposition;
+    }
+    const secondVal = Number(positionArr[1]) - 1;
+    modifiedposition.push(secondVal);
+    return modifiedposition;
+  }
+}
