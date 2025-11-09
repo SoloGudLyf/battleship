@@ -31,5 +31,21 @@ describe("Gameboard class tests", () => {
         expect(gameBoard.receiveAttack("A8 ") === "X").toBeTruthy();
       });
     });
+
+    describe("all ships sunk", () => {
+      const newGameBoard = new Gameboard();
+      const newShip = new Ship(3);
+      newGameBoard.placeShip(newShip, "A1", "A3");
+      test("ships not sunk", () => {
+        newGameBoard.receiveAttack("A1");
+        expect(newGameBoard.isSunk()).not.toBeTruthy();
+      });
+
+      test("ships sunk", () => {
+        newGameBoard.receiveAttack("A2");
+        newGameBoard.receiveAttack("A3");
+        expect(newGameBoard.isSunk()).toBeTruthy();
+      });
+    });
   });
 });

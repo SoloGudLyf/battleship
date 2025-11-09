@@ -111,4 +111,22 @@ export default class Gameboard {
 
     return this.gameboardArr[pos[0]][pos[1]];
   }
+
+  isSunk() {
+    let isSunk = false;
+    for (const row of this.gameboardArr) {
+      for (const element of row) {
+        if (element.length > 0) {
+          console.log(element);
+
+          if (!element.isSunk()) return false;
+          isSunk = element.isSunk();
+        }
+      }
+    }
+    console.log(isSunk);
+    console.log(this.gameboardArr);
+
+    return isSunk;
+  }
 }
