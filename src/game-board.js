@@ -96,4 +96,19 @@ export default class Gameboard {
     modifiedposition.push(secondVal);
     return modifiedposition;
   }
+
+  receiveAttack(pos) {
+    pos = this.getPos(pos);
+    let boardPos = this.gameboardArr[pos[0]][pos[1]];
+
+    if (boardPos === undefined) return "Invalid Input";
+
+    if (boardPos.length > 0) {
+      boardPos.isHit();
+    } else {
+      this.gameboardArr[pos[0]][pos[1]] = "X";
+    }
+
+    return this.gameboardArr[pos[0]][pos[1]];
+  }
 }
