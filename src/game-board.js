@@ -21,13 +21,13 @@ export default class Gameboard {
         "Column placing"
       ) {
         for (let index = 0; index < ship.length; index++) {
-          this.gameboardArr[startPos[0] + index][startPos[1]] = "O";
+          this.gameboardArr[startPos[0] + index][startPos[1]] = ship;
         }
       } else if (
         this.checkInputValidity(ship.length, startPos, endPos) === "Row placing"
       ) {
         for (let index = 0; index < ship.length; index++) {
-          this.gameboardArr[startPos[0]][startPos[1] + index] = "O";
+          this.gameboardArr[startPos[0]][startPos[1] + index] = ship;
         }
       } else {
         return "Invalid Input";
