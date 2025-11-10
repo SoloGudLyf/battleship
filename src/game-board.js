@@ -7,7 +7,7 @@ export default class Gameboard {
     for (let index = 0; index < 10; index++) {
       gameBoardArr.push([]);
       for (let j = 0; j < 10; j++) {
-        gameBoardArr[index].push([]);
+        gameBoardArr[index].push("");
       }
     }
     return gameBoardArr;
