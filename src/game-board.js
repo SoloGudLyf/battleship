@@ -1,6 +1,7 @@
 export default class Gameboard {
   gameboardArr = this.getboard();
 
+  // Generating board array
   getboard() {
     const gameBoardArr = [];
     for (let index = 0; index < 10; index++) {
@@ -12,6 +13,7 @@ export default class Gameboard {
     return gameBoardArr;
   }
 
+  // Placing ships at specific coordinate
   placeShip(ship, startPos, endPos) {
     startPos = this.getPos(startPos);
     endPos = this.getPos(endPos);
@@ -21,12 +23,16 @@ export default class Gameboard {
         "Column placing"
       ) {
         for (let index = 0; index < ship.length; index++) {
+          if (this.gameboardArr[startPos[0] + index][startPos[1]].length > 0)
+            return "Place already occupied";
           this.gameboardArr[startPos[0] + index][startPos[1]] = ship;
         }
       } else if (
         this.checkInputValidity(ship.length, startPos, endPos) === "Row placing"
       ) {
         for (let index = 0; index < ship.length; index++) {
+          if (this.gameboardArr[startPos[0]][startPos[1] + index].length > 0)
+            return "Place already occupied";
           this.gameboardArr[startPos[0]][startPos[1] + index] = ship;
         }
       } else {
@@ -48,9 +54,10 @@ export default class Gameboard {
     return false;
   }
 
+  // Extracting exact position from given input
   getPos(position) {
     const positionArr = Array.from(position);
-    const modifiedposition = [];
+    let modifiedposition = [];
     switch (positionArr[0].toUpperCase()) {
       case "A":
         modifiedposition.push(0);
@@ -90,13 +97,16 @@ export default class Gameboard {
     if (positionArr.length === 3) {
       const secondVal = Number(positionArr[1] + positionArr[2]) - 1;
       modifiedposition.push(secondVal);
+      modifiedposition = [modifiedposition[1], modifiedposition[0]];
       return modifiedposition;
     }
     const secondVal = Number(positionArr[1]) - 1;
     modifiedposition.push(secondVal);
+    modifiedposition = [modifiedposition[1], modifiedposition[0]];
     return modifiedposition;
   }
 
+  // Attacking specific positions on board
   receiveAttack(pos) {
     pos = this.getPos(pos);
     let boardPos = this.gameboardArr[pos[0]][pos[1]];
@@ -116,16 +126,17 @@ export default class Gameboard {
     let isSunk = false;
     for (const row of this.gameboardArr) {
       for (const element of row) {
-        if (element.length > 0) {
-          console.log(element);
+        if (element.length > 0 && typeof element !== "string") {
+          element;
 
           if (!element.isSunk()) return false;
           isSunk = element.isSunk();
         }
       }
+      return isSunk;
     }
-    console.log(isSunk);
-    console.log(this.gameboardArr);
+    isSunk;
+    this.gameboardArr;
 
     return isSunk;
   }
