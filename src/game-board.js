@@ -51,6 +51,10 @@ export default class Gameboard {
     ) {
       return "Row placing";
     }
+    console.log(startPos);
+    console.log(endPos);
+    
+    
     return false;
   }
 
@@ -100,7 +104,8 @@ export default class Gameboard {
       modifiedposition = [modifiedposition[1], modifiedposition[0]];
       return modifiedposition;
     }
-    const secondVal = Number(positionArr[1]) - 1;
+    const secondVal =
+      Number(positionArr[1]) === 0 ? 0 : Number(positionArr[1]) - 1;
     modifiedposition.push(secondVal);
     modifiedposition = [modifiedposition[1], modifiedposition[0]];
     return modifiedposition;
