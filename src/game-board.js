@@ -108,7 +108,7 @@ export default class Gameboard {
 
   // Attacking specific positions on board
   receiveAttack(pos) {
-    pos = this.getPos(pos);
+    pos = typeof pos === "object" ? pos : this.getPos(pos);
     let boardPos = this.gameboardArr[pos[0]][pos[1]];
 
     if (boardPos === undefined) return "Invalid Input";

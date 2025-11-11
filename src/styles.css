@@ -2,11 +2,34 @@
   box-sizing: border-box;
 }
 
-.container{
-    display: flex;
+.container {
+  display: flex;
+  gap: 15px;
 }
 
-.playerBoard div, .computerBoard div{
-    display: flex;
-    flex-wrap: wrap;
+.playerBoard div,
+.computerBoard div {
+  display: flex;
+  flex-wrap: wrap;
+  border: 0.1px solid rgba(0, 0, 0, 0.345);
+  justify-content: center;
+  align-items: center;
+}
+
+.ship {
+  background-color: rgb(197, 228, 255);
+}
+
+.playerBoard,
+.computerBoard {
+  width: 40%;
+}
+
+.hit {
+  background-color: rgba(250, 107, 107, 0.479);
+}
+.missed {
+  font-size: 1.5rem;
+
+  background-color: aquamarine;
 }
