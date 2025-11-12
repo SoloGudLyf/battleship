@@ -7,11 +7,16 @@ const playerSpace = document.querySelector(".playerBattleSpace");
 const computerSpace = document.querySelector(".computerBattleSpace");
 const info = document.querySelector(".info");
 const rdmPlacementBtn = document.querySelector(".randomPlacement");
+const resetBtn = document.querySelector(".reset");
 let state = "player";
 
 rdmPlacementBtn.addEventListener("click", () => {
   randomPlacement();
   randomPlacement(computer);
+});
+
+resetBtn.addEventListener("click", () => {
+  rdmPlacementBtn.click();
 });
 
 function generateGrid(board, arr) {
@@ -222,9 +227,6 @@ function set2(player, num) {
   );
 }
 
-randomPlacement(computer);
-randomPlacement(player);
-
 function checkGameEnd() {
   if (player.gameBoard.isSunk()) {
     info.textContent = "Game Over, computer wins";
@@ -249,3 +251,6 @@ function checkGameEnd() {
     }
   }
 }
+
+randomPlacement(computer);
+randomPlacement(player);
