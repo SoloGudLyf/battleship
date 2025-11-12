@@ -26,12 +26,11 @@
 }
 
 .hit {
-  background-color: rgba(250, 107, 107, 0.479);
+  background-color: aquamarine;
 }
 .missed {
   font-size: 1.5rem;
-
-  background-color: aquamarine;
+  background-color: rgba(250, 107, 107, 0.479);
 }
 
 .playerBattleSpace,

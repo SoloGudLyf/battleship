@@ -23,16 +23,22 @@ export default class Gameboard {
         "Column placing"
       ) {
         for (let index = 0; index < ship.length; index++) {
-          if (this.gameboardArr[startPos[0] + index][startPos[1]].length > 0)
+          if (this.gameboardArr[startPos[0] + index][startPos[1]].length > 0) {
+            ship.length -= 1;
+
             return "Place already occupied";
+          }
           this.gameboardArr[startPos[0] + index][startPos[1]] = ship;
         }
       } else if (
         this.checkInputValidity(ship.length, startPos, endPos) === "Row placing"
       ) {
         for (let index = 0; index < ship.length; index++) {
-          if (this.gameboardArr[startPos[0]][startPos[1] + index].length > 0)
+          if (this.gameboardArr[startPos[0]][startPos[1] + index].length > 0) {
+            ship.length -= 1;
+
             return "Place already occupied";
+          }
           this.gameboardArr[startPos[0]][startPos[1] + index] = ship;
         }
       } else {
@@ -128,18 +134,12 @@ export default class Gameboard {
     let isSunk = false;
     for (const row of this.gameboardArr) {
       for (const element of row) {
-        if (element.length > 0 && typeof element !== "string") {
-          element;
-
+        if (typeof element === "object") {
           if (!element.isSunk()) return false;
           isSunk = element.isSunk();
         }
       }
-      return isSunk;
     }
-    isSunk;
-    this.gameboardArr;
-
     return isSunk;
   }
 }

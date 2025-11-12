@@ -80,13 +80,15 @@ function shot(e) {
 }
 
 function computerChoice() {
-  let choice = Math.floor(Math.random() * 99);
+  let choice = Math.floor(Math.random() * 101);
 
+  if (choice === 0) choice = 1;
   let element = document.querySelector(
     `.playerBoard div :nth-child(${choice})`,
   );
   while (element.classList.value !== "" && element.classList.value !== "ship") {
-    choice = Math.floor(Math.random() * 99);
+    choice = Math.floor(Math.random() * 101);
+    if (choice === 0) choice = 1;
 
     element = document.querySelector(`.playerBoard div :nth-child(${choice})`);
   }
@@ -182,8 +184,14 @@ function set1(player, num) {
     firstLetter[Math.floor(Math.random() * firstLetter.length)];
   let randomNumber = Math.floor(Math.random() * (firstLetter.length / 2));
   let index = player.gameBoard.getPos(`${randomLetter}${randomNumber}`);
+  let condition = [];
+  for (let i = 1; i < num + 1; i++) {
+    condition.push("");
+  }
 
   while (
+    typeof player.gameBoard.gameboardArr[index[0]][index[1]] === "object" &&
+    typeof player.gameBoard.gameboardArr[index[0]][index[1] + 1] === "object" &&
     typeof player.gameBoard.gameboardArr[index[0]][index[1]] === "object"
   ) {
     randomLetter = firstLetter[Math.floor(Math.random() * firstLetter.length)];
