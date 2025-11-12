@@ -19,7 +19,7 @@ rdmPlacementBtn.addEventListener("click", () => {
 function generateGrid(board, arr) {
   const container = document.createElement("div");
 
-  container.style.width = "200px";
+  container.style.width = "500px";
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr[1].length; j++) {
       const div = document.createElement("div");
@@ -30,7 +30,7 @@ function generateGrid(board, arr) {
       div.dataset.id = `${i}${j}`;
 
       div.style.width = "10%";
-      div.style.height = "30px";
+      div.style.height = "50px";
       div.addEventListener("click", shot);
       container.appendChild(div);
     }
