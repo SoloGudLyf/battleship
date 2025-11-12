@@ -7,18 +7,15 @@ const playerSpace = document.querySelector(".playerBattleSpace");
 const computerSpace = document.querySelector(".computerBattleSpace");
 const info = document.querySelector(".info");
 const rdmPlacementBtn = document.querySelector(".randomPlacement");
-const resetBtn = document.querySelector(".reset");
 let state = "player";
+let computernextpick = "";
 
 rdmPlacementBtn.addEventListener("click", () => {
   randomPlacement();
   randomPlacement(computer);
 });
 
-resetBtn.addEventListener("click", () => {
-  rdmPlacementBtn.click();
-});
-
+// Map gameboard onto UI grid
 function generateGrid(board, arr) {
   const container = document.createElement("div");
 
@@ -45,6 +42,7 @@ const player = new Player("Solo");
 
 const computer = new Player("Computer");
 
+// Shoot a coordinate by clicking while computer chooses randomly
 function shot(e) {
   let gridIndex = Array.from(e.target.dataset.id);
   gridIndex = [Number(gridIndex[0]), Number(gridIndex[1])];
@@ -67,27 +65,24 @@ function shot(e) {
     computer.gameBoard.receiveAttack(gridIndex);
 
     state = "computer";
-    info.textContent = "It's computer's turn";
     checkGameEnd();
 
     computerChoice();
 
     state = "player";
-    info.textContent = "It's player's turn";
     checkGameEnd();
     return;
   }
 }
 
 function computerChoice() {
-  let choice = Math.floor(Math.random() * 101);
+  let choice = computernextpick || Math.floor(Math.random() * 101);
 
   if (choice === 0) choice = 1;
   let element = document.querySelector(
     `.playerBoard div :nth-child(${choice})`,
   );
-  while (element === null && choice === 1) {
-    console.log("You there");
+  while (element === null || choice === 1) {
     choice = Math.floor(Math.random() * 101);
     if (choice === 0) choice = 1;
     element = document.querySelector(`.playerBoard div :nth-child(${choice})`);
@@ -104,19 +99,20 @@ function computerChoice() {
     "object"
   ) {
     element.classList.add("hit");
+    computernextpick = choice + 1;
   } else {
     element.classList.add("missed");
     element.textContent = ".";
+    computernextpick = "";
   }
   try {
     player.gameBoard.receiveAttack(choiceArr);
   } catch {
-    console.log("Hi");
-
     return computerChoice();
   }
 }
 
+// Shuffling position of ships
 function randomPlacement(realPlayer = player) {
   if (realPlayer === computer) {
     computerSpace.textContent = "";
@@ -181,6 +177,7 @@ function randomPlacement(realPlayer = player) {
   }
 }
 
+// Vertical placing of ships
 function set1(player, num) {
   let firstLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   let randomLetter =
@@ -210,6 +207,7 @@ function set1(player, num) {
   return;
 }
 
+// Horizontal placing of ships
 function set2(player, num) {
   let firstLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   let randomLetter = Math.floor(Math.random() * (firstLetter.length / 2));
