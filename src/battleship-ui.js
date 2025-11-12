@@ -86,14 +86,15 @@ function computerChoice() {
   let element = document.querySelector(
     `.playerBoard div :nth-child(${choice})`,
   );
-  while (element.classList.value !== "" && element.classList.value !== "ship") {
+  while (element === null && choice === 1) {
+    console.log("You there");
     choice = Math.floor(Math.random() * 101);
     if (choice === 0) choice = 1;
-
     element = document.querySelector(`.playerBoard div :nth-child(${choice})`);
   }
 
-  let choiceArr = Array.from(String(choice));
+  let choiceArr = Array.from(element.dataset.id);
+
   choiceArr = [Number(choiceArr[0]), Number(choiceArr[1])];
 
   choiceArr[1] = Number.isNaN(choiceArr[1]) ? 0 : choiceArr[1];
@@ -110,7 +111,9 @@ function computerChoice() {
   try {
     player.gameBoard.receiveAttack(choiceArr);
   } catch {
-    console.log(choiceArr);
+    console.log("Hi");
+
+    return computerChoice();
   }
 }
 
