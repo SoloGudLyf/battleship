@@ -27,7 +27,7 @@ function generateGrid(board, arr) {
     for (let j = 0; j < arr[1].length; j++) {
       const div = document.createElement("div");
 
-      if (typeof arr[i][j] === "object") {
+      if (typeof arr[i][j] === "object" && board !== computerSpace) {
         div.classList.add("ship");
       }
       div.dataset.id = `${i}${j}`;
