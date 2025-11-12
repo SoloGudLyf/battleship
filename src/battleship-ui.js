@@ -64,14 +64,7 @@ function shot(e) {
     state = "computer";
     info.textContent = "It's computer's turn";
     checkGameEnd();
-    return;
-  }
-  if (state === "computer") {
-    if (
-      !playerBoard.childNodes[2].contains(e.target) ||
-      (e.target.classList.value !== "" && e.target.classList.value !== "ship")
-    )
-      return;
+
     computerChoice();
 
     state = "player";
@@ -82,19 +75,18 @@ function shot(e) {
 }
 
 function computerChoice() {
-  let choice = Math.floor(Math.random() * 99) + 1;
-  document.querySelector(`.playerBoard div :nth-child(100)`);
+  let choice = Math.floor(Math.random() * 99);
 
   let element = document.querySelector(
     `.playerBoard div :nth-child(${choice})`,
   );
   while (element.classList.value !== "" && element.classList.value !== "ship") {
-    choice = Math.floor(Math.random() * 99) + 1;
+    choice = Math.floor(Math.random() * 99);
 
     element = document.querySelector(`.playerBoard div :nth-child(${choice})`);
   }
 
-  let choiceArr = Array.from(String(choice - 1));
+  let choiceArr = Array.from(String(choice));
   choiceArr = [Number(choiceArr[0]), Number(choiceArr[1])];
 
   choiceArr[1] = Number.isNaN(choiceArr[1]) ? 0 : choiceArr[1];
@@ -108,17 +100,18 @@ function computerChoice() {
     element.classList.add("missed");
     element.textContent = ".";
   }
-
-  player.gameBoard.receiveAttack(choiceArr);
+  try {
+    player.gameBoard.receiveAttack(choiceArr);
+  } catch {
+    console.log(choiceArr);
+  }
 }
 
 function randomPlacement(realPlayer = player) {
   if (realPlayer === computer) {
-
     computerSpace.textContent = "";
     computer.gameBoard.gameboardArr = computer.gameBoard.getboard();
   } else if (realPlayer === player) {
-
     player.gameBoard.gameboardArr = player.gameBoard.getboard();
 
     playerSpace.textContent = "";
