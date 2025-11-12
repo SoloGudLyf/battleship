@@ -51,10 +51,7 @@ export default class Gameboard {
     ) {
       return "Row placing";
     }
-    console.log(startPos);
-    console.log(endPos);
-    
-    
+
     return false;
   }
 

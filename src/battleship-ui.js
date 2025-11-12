@@ -39,12 +39,8 @@ function generateGrid(board, arr) {
 const player = new Player("Solo");
 
 const computer = new Player("Computer");
-const computerShip = new Ship(3);
-computer.gameBoard.placeShip(computerShip, "C1", "E1");
 
 function shot(e) {
-  console.log(playerBoard.childNodes[2]);
-
   let gridIndex = Array.from(e.target.dataset.id);
   gridIndex = [Number(gridIndex[0]), Number(gridIndex[1])];
   if (state === "player") {
@@ -67,6 +63,7 @@ function shot(e) {
 
     state = "computer";
     info.textContent = "It's computer's turn";
+    checkGameEnd();
     return;
   }
   if (state === "computer") {
@@ -79,6 +76,7 @@ function shot(e) {
 
     state = "player";
     info.textContent = "It's player's turn";
+    checkGameEnd();
     return;
   }
 }
@@ -116,12 +114,10 @@ function computerChoice() {
 
 function randomPlacement(realPlayer = player) {
   if (realPlayer === computer) {
-    console.log(computer);
 
     computerSpace.textContent = "";
     computer.gameBoard.gameboardArr = computer.gameBoard.getboard();
   } else if (realPlayer === player) {
-    console.log(player);
 
     player.gameBoard.gameboardArr = player.gameBoard.getboard();
 
@@ -177,7 +173,6 @@ function randomPlacement(realPlayer = player) {
   }
   if (realPlayer === computer) {
     computerSpace.textContent = "";
-    console.log(computerSpace);
 
     generateGrid(computerSpace, realPlayer.gameBoard.gameboardArr);
   }
@@ -189,7 +184,6 @@ function set1(player, num) {
     firstLetter[Math.floor(Math.random() * firstLetter.length)];
   let randomNumber = Math.floor(Math.random() * (firstLetter.length / 2));
   let index = player.gameBoard.getPos(`${randomLetter}${randomNumber}`);
-  console.log(index);
 
   while (
     typeof player.gameBoard.gameboardArr[index[0]][index[1]] === "object"
@@ -237,3 +231,28 @@ function set2(player, num) {
 
 randomPlacement(computer);
 randomPlacement(player);
+
+function checkGameEnd() {
+  if (player.gameBoard.isSunk()) {
+    info.textContent = "Game Over, computer wins";
+    for (const element of document.querySelector(".computerBattleSpace div")
+      .childNodes) {
+      element.removeEventListener("click", shot);
+    }
+
+    for (const element of document.querySelector(".playerBattleSpace div")
+      .childNodes) {
+      element.removeEventListener("click", shot);
+    }
+  } else if (computer.gameBoard.isSunk()) {
+    info.textContent = "Game Over, You win";
+    for (const element of document.querySelector(".computerBattleSpace div")
+      .childNodes) {
+      element.removeEventListener("click", shot);
+    }
+    for (const element of document.querySelector(".playerBattleSpace div")
+      .childNodes) {
+      element.removeEventListener("click", shot);
+    }
+  }
+}
