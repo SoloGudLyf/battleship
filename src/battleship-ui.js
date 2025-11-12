@@ -3,11 +3,16 @@ import Ship from "./ship";
 
 const playerBoard = document.querySelector(".playerBoard");
 const computerBoard = document.querySelector(".computerBoard");
+const playerSpace = document.querySelector(".playerBattleSpace");
+const computerSpace = document.querySelector(".computerBattleSpace");
 const info = document.querySelector(".info");
 const rdmPlacementBtn = document.querySelector(".randomPlacement");
 let state = "player";
-rdmPlacementBtn.addEventListener("click", randomPlacement);
-let playerSpace = playerBoard.textContent;
+
+rdmPlacementBtn.addEventListener("click", () => {
+  randomPlacement();
+  randomPlacement(computer);
+});
 
 function generateGrid(board, arr) {
   const container = document.createElement("div");
@@ -36,9 +41,10 @@ const player = new Player("Solo");
 const computer = new Player("Computer");
 const computerShip = new Ship(3);
 computer.gameBoard.placeShip(computerShip, "C1", "E1");
-generateGrid(computerBoard, computer.gameBoard.gameboardArr);
 
 function shot(e) {
+  console.log(playerBoard.childNodes[2]);
+
   let gridIndex = Array.from(e.target.dataset.id);
   gridIndex = [Number(gridIndex[0]), Number(gridIndex[1])];
   if (state === "player") {
@@ -65,7 +71,7 @@ function shot(e) {
   }
   if (state === "computer") {
     if (
-      !playerBoard.childNodes[1].contains(e.target) ||
+      !playerBoard.childNodes[2].contains(e.target) ||
       (e.target.classList.value !== "" && e.target.classList.value !== "ship")
     )
       return;
@@ -108,58 +114,76 @@ function computerChoice() {
   player.gameBoard.receiveAttack(choiceArr);
 }
 
-function randomPlacement() {
-  player.gameBoard.gameboardArr = player.gameBoard.getboard();
-  playerBoard.textContent = playerSpace;
+function randomPlacement(realPlayer = player) {
+  if (realPlayer === computer) {
+    console.log(computer);
 
+    computerSpace.textContent = "";
+    computer.gameBoard.gameboardArr = computer.gameBoard.getboard();
+  } else if (realPlayer === player) {
+    console.log(player);
+
+    player.gameBoard.gameboardArr = player.gameBoard.getboard();
+
+    playerSpace.textContent = "";
+  }
   for (let i = 1; i < 11; i++) {
     let chooseSet = Math.floor(Math.random() * 2);
     if (chooseSet === 0 && i === 1) {
-      set1(3);
+      set1(realPlayer, 3);
     } else if (chooseSet === 1 && i === 1) {
-      set2(3);
+      set2(realPlayer, 3);
     } else if (chooseSet === 0 && i === 2) {
-      set1(2);
+      set1(realPlayer, 2);
     } else if (chooseSet === 1 && i === 2) {
-      set2(2);
+      set2(realPlayer, 2);
     } else if (chooseSet === 0 && i === 3) {
-      set1(1);
+      set1(realPlayer, 1);
     } else if (chooseSet === 1 && i === 3) {
-      set2(1);
+      set2(realPlayer, 1);
     } else if (chooseSet === 0 && i === 4) {
-      set1(2);
+      set1(realPlayer, 2);
     } else if (chooseSet === 1 && i === 4) {
-      set2(2);
+      set2(realPlayer, 2);
     } else if (chooseSet === 0 && i === 5) {
-      set1(3);
+      set1(realPlayer, 3);
     } else if (chooseSet === 1 && i === 5) {
-      set2(3);
+      set2(realPlayer, 3);
     } else if (chooseSet === 0 && i === 6) {
-      set1(1);
+      set1(realPlayer, 1);
     } else if (chooseSet === 1 && i === 6) {
-      set2(1);
+      set2(realPlayer, 1);
     } else if (chooseSet === 0 && i === 7) {
-      set1(4);
+      set1(realPlayer, 4);
     } else if (chooseSet === 1 && i === 7) {
-      set2(4);
+      set2(realPlayer, 4);
     } else if (chooseSet === 0 && i === 8) {
-      set1(2);
+      set1(realPlayer, 2);
     } else if (chooseSet === 1 && i === 8) {
-      set2(2);
+      set2(realPlayer, 2);
     } else if (chooseSet === 0 && i === 9) {
-      set1(1);
+      set1(realPlayer, 1);
     } else if (chooseSet === 1 && i === 9) {
-      set2(1);
+      set2(realPlayer, 1);
     } else if (chooseSet === 0 && i === 10) {
-      set1(1);
+      set1(realPlayer, 1);
     } else if (chooseSet === 1 && i === 10) {
-      set2(1);
+      set2(realPlayer, 1);
     }
   }
-  generateGrid(playerBoard, player.gameBoard.gameboardArr);
+  if (realPlayer === player) {
+    playerSpace.textContent = "";
+    generateGrid(playerSpace, realPlayer.gameBoard.gameboardArr);
+  }
+  if (realPlayer === computer) {
+    computerSpace.textContent = "";
+    console.log(computerSpace);
+
+    generateGrid(computerSpace, realPlayer.gameBoard.gameboardArr);
+  }
 }
 
-function set1(num) {
+function set1(player, num) {
   let firstLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   let randomLetter =
     firstLetter[Math.floor(Math.random() * firstLetter.length)];
@@ -183,7 +207,7 @@ function set1(num) {
   return;
 }
 
-function set2(num) {
+function set2(player, num) {
   let firstLetter = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
   let randomLetter = Math.floor(Math.random() * (firstLetter.length / 2));
 
@@ -210,4 +234,6 @@ function set2(num) {
     `${firstLetter[randomLetter + (num - 1)]}${randomNumber}`,
   );
 }
-generateGrid(playerBoard, player.gameBoard.gameboardArr);
+
+randomPlacement(computer);
+randomPlacement(player);

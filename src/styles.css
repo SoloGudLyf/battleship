@@ -33,3 +33,9 @@
 
   background-color: aquamarine;
 }
+
+.playerBattleSpace,
+.computerBattleSpace {
+  border: none !important;
+  padding: 5px;
+}
